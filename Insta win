@@ -1,0 +1,60 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local targetPosition = CFrame.new(2098, 107, -3212)
+local enabled = false
+
+local character = player.Character or player.CharacterAdded:Wait()
+local hrp = character:WaitForChild("HumanoidRootPart")
+
+player.CharacterAdded:Connect(function(char)
+	character = char
+	hrp = char:WaitForChild("HumanoidRootPart")
+end)
+
+local gui = Instance.new("ScreenGui")
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.fromOffset(160, 90)
+frame.Position = UDim2.fromOffset(20, 20)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.Parent = gui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 12)
+corner.Parent = frame
+
+local onButton = Instance.new("TextButton")
+onButton.Size = UDim2.fromOffset(140, 30)
+onButton.Position = UDim2.fromOffset(10, 10)
+onButton.Text = "ON"
+onButton.TextColor3 = Color3.new(1, 1, 1)
+onButton.BackgroundColor3 = Color3.fromRGB(60, 170, 60)
+onButton.Parent = frame
+
+local offButton = Instance.new("TextButton")
+offButton.Size = UDim2.fromOffset(140, 30)
+offButton.Position = UDim2.fromOffset(10, 50)
+offButton.Text = "OFF"
+offButton.TextColor3 = Color3.new(1, 1, 1)
+offButton.BackgroundColor3 = Color3.fromRGB(170, 60, 60)
+offButton.Parent = frame
+
+onButton.MouseButton1Click:Connect(function()
+	enabled = true
+end)
+
+offButton.MouseButton1Click:Connect(function()
+	enabled = false
+end)
+
+task.spawn(function()
+	while true do
+		if enabled and hrp then
+			hrp.CFrame = targetPosition
+		end
+		task.wait(1)
+	end
+end)
