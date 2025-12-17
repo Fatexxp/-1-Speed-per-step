@@ -1,12 +1,13 @@
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
-local targetPosition = CFrame.new(2098, 107, -3212)
-local treadmillPosition = CFrame.new(-92, -14, -762)
+local targetPosition = CFrame.new(2098, 107, -3212) -- End position
+local treadmillPosition = CFrame.new(-92, -14, -762) -- Treadmill position
 
--- start everything off
+-- Start everything off
 local teleportActive = false
 local teleportLocation = nil -- nil until user chooses
+local autoLoopActive = false
 
 local character = player.Character or player.CharacterAdded:Wait()
 local hrp = character:WaitForChild("HumanoidRootPart")
@@ -88,13 +89,40 @@ Section:AddButton({
 	end
 })
 
--- TELEPORT LOOP
+-- AUTO WIN + FARM LOOP TOGGLE
+local loopToggle = Section:AddToggle({
+	text = "Auto Win + Farm Loop",
+	state = false,
+	flag = "AutoLoop",
+	callback = function(v)
+		autoLoopActive = v
+	end
+})
+loopToggle:SetState(false, true)
+
+-- TELEPORT LOOP (main & treadmill)
 task.spawn(function()
 	while true do
 		if teleportActive and hrp and teleportLocation then
 			hrp.CFrame = teleportLocation
 		end
 		task.wait(1)
+	end
+end)
+
+-- AUTO WIN + FARM LOOP
+task.spawn(function()
+	while true do
+		if autoLoopActive and hrp then
+			-- Step 1: Teleport to the end for a win
+			hrp.CFrame = targetPosition
+			task.wait(0.5) -- wait for win to register
+
+			-- Step 2: Teleport to treadmill to farm energy
+			hrp.CFrame = treadmillPosition
+			task.wait(2) -- wait while farming energy
+		end
+		task.wait(0.5)
 	end
 end)
 
