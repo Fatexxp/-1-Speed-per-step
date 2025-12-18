@@ -1,7 +1,8 @@
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
-local targetPosition = CFrame.new(2098, 107, -3212) -- End position
+-- UPDATED WIN LOCATION
+local targetPosition = CFrame.new(1204, 353, -3143) -- New end position
 local treadmillPosition = CFrame.new(-92, -14, -762) -- Treadmill position
 
 -- Start everything off
@@ -116,11 +117,11 @@ task.spawn(function()
 		if autoLoopActive and hrp then
 			-- Step 1: Teleport to the end for a win
 			hrp.CFrame = targetPosition
-			task.wait(0.5) -- wait for win to register
+			task.wait(0.5)
 
 			-- Step 2: Teleport to treadmill to farm energy
 			hrp.CFrame = treadmillPosition
-			task.wait(2) -- wait while farming energy
+			task.wait(2)
 		end
 		task.wait(0.5)
 	end
