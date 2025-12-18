@@ -2,7 +2,7 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
 -- UPDATED WIN LOCATION
-local targetPosition = CFrame.new(1204, 353, -3143) -- New end position
+local targetPosition = CFrame.new(1204, 360, -3143) -- New end position
 local treadmillPosition = CFrame.new(-92, -14, -762) -- Treadmill position
 
 -- Start everything off
@@ -128,3 +128,4 @@ task.spawn(function()
 end)
 
 library:SendNotification("Speed Teleport Loaded", 5)
+
